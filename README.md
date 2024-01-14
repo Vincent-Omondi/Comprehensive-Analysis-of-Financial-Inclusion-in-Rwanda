@@ -39,6 +39,11 @@ ggplot(data = data3, aes(x = factor(district), y = prop.table(stat(count)),
   labs(x = "District", y = "Financially Included", fill = "District") +
   ggtitle("Rates of Financial Exclusion")
 
+```
+## Digital Financial Inclusion Visualization
+
+```R
+
 # Digitally financially included
 ggplot(data = data3, aes(x = factor(district), y = prop.table(stat(count)),
                         fill = factor(digital_financial_inclusion),
@@ -48,4 +53,62 @@ ggplot(data = data3, aes(x = factor(district), y = prop.table(stat(count)),
   scale_y_continuous(labels = scales::percent) +
   labs(x = "District", y = "Financially Included", fill = "District") +
   ggtitle("Rates of Financial Inclusion")
+```
+## Mobile Money Market Analysis
+### Distribution of Mobile Money Among companies
+
+```R
+# Distribution of mobile money among companies
+pie(table(data3$account_type == "Mobile Money", data3$mm_account_telco))
+data3$mobile_money <- ifelse(data3$account_type == "Mobile Money", "Mobile__Money", "0")
+View(data3)
+
+ggplot(data3, aes(x = mm_account_telco, y = mobile_money, fill = mm_account_telco)) +
+  geom_bar(stat = "identity", width = 1) +
+  labs(x = "COMPANY", y = "DISTRIBUTION OF MOBILE MONEY", fill = "district") +
+  ggtitle("DISTRIBUTION OF MOBILE MONEY AMONG COMPANY A, B, and C")
+```
+
+## Statistical Analysis
+### T-Test for Failed Money Transactions
+```R
+# T-test for failed money transactions
+data3$Urban_failed <- ifelse(data3$urban == "Urban" & data3$v240 == "yes", "1", "0")
+View(data3) 
+data3$Rural_failed <- ifelse(data3$urban == "Rural" & data3$v240 == "yes", "1", "0")
+
+sd(data3$Urban_failed)
+sd(data3$Rural_failed)
+z.test(data3$Urban_failed, data3$Rural_failed, alternative = "two.sided")
+
+# Calculating different means using t.test
+x <- as.numeric(data3$Urban_failed)
+y <- as.numeric(data3$Rural_failed)
+t.test(x, y, paired = FALSE, alternative = "two.sided")
+```
+
+## Predictive Modeling
+
+```R
+# Predictive modeling for mobile money account cancellation
+data3$mm_account_cancelled <- ifelse(data3$mm_account_cancelled == "yes", "1", "0")
+
+# Data preprocessing for multilinear regression
+# (Ordinal encoding and handling missing values)
+# ...
+
+# Multilinear regression model
+set.seed(1234)
+model <- lm(mm_account_cancelled ~ weight + account_num + district2 + urban + gender +
+            age + hh_members + mm_account_telco_main2 + mm_account_telco2 +
+            highest_grade_completed2 + account_type2 + mobile_money +
+            digital_financial_inclusion + financially_excluded + v236 + v237 +
+            v238 + v240 + v241 + v242 + v243 + v245 + v246 + mm_trust +
+            agent_trust + prefer_cash, data = data4)
+summary(model)
+```
+I extend my sincere gratitude to John Wafula for being a continual source of inspiration throughout this project.
+
+
+
 
