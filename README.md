@@ -107,7 +107,7 @@ model <- lm(mm_account_cancelled ~ weight + account_num + district2 + urban + ge
             agent_trust + prefer_cash, data = data4)
 summary(model)
 ```
-I extend my sincere gratitude to John Wafula for being a continual source of inspiration throughout this project.
+I extend my sincere gratitude to **John Wafula** for being a continual source of inspiration throughout this project.
 
 
 
